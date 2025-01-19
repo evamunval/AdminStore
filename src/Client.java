@@ -47,6 +47,6 @@ public class Client extends Person {
                 "Id= " + userID + '\n' +
                 "Nombre= " + name + '\n' +
                 "Apellido= " + surname + '\n' +
-                "Dinero= " + money;
+                "Dinero= " + money + '\n';
     }
 }

@@ -7,10 +7,12 @@ public class Store {
     //declaracion de arraylist
     private ArrayList<Client> clientArrayList;
     private ArrayList<Product> productArrayList;
+    private Scanner sc;
 
     public Store(){
         this.client = new Client();
         this.product = new Product();
+        this.sc = new Scanner(System.in);
 
         //instancia del arraylist desde la variable global
         this.clientArrayList = new ArrayList<>();
@@ -77,7 +79,6 @@ public class Store {
     }
 
     public void mainMenu(){
-        Scanner sc = new Scanner(System.in);
         printMainMenu();
         int userInput = sc.nextInt();
 
@@ -111,7 +112,6 @@ public class Store {
     }
 
     public void registerMenu() {
-        Scanner sc = new Scanner(System.in);
         int inputRegister = sc.nextInt();
         switch (inputRegister){
             case 1:
@@ -132,18 +132,15 @@ public class Store {
     }
 
     public void modifyMenu(){
-        Scanner sc = new Scanner(System.in);
         int inputModification = sc.nextInt();
         switch (inputModification){
             case 1:
                 // Modificacion de Clientes
-                //printModifyClientMenu();
                 chooseClient(clientArrayList);
                 break;
             case 2:
                 // Modificacion de Productos
-                printModifyProductMenu();
-                //ModifyProductMenu();
+                chooseProduct(productArrayList);
                 break;
             case 3:
                 //Salida menu principal
@@ -154,7 +151,6 @@ public class Store {
     }
 
     public void deleteMenu(){
-        Scanner sc = new Scanner(System.in);
         int inputErase = sc.nextInt();
         switch (inputErase){
             case 1:
@@ -174,7 +170,6 @@ public class Store {
     }
 
     public void salesMenu(){
-        Scanner sc = new Scanner(System.in);
         int salesInput = sc.nextInt();
         switch (salesInput){
             case 1:
@@ -195,7 +190,6 @@ public class Store {
     }
 
     public void registerClient(ArrayList<Client> clientArrayList){
-        Scanner sc = new Scanner(System.in);
         Client c = new Client();
 
         System.out.println("Introduzca el Id del cliente: ");
@@ -209,14 +203,14 @@ public class Store {
         c.setMoney(sc.nextDouble());
         clientArrayList.add(c);
         System.out.println(c);
+        mainMenu();
     }
 
     public void registerProduct(ArrayList<Product> productArrayList){
-        Scanner sc = new Scanner(System.in);
         Product p = new Product();
 
         System.out.println("Introduzca el Id del producto: ");
-        p.setProductId(sc.nextInt());
+        p.setProductID(sc.nextInt());
         sc.nextLine();
         System.out.println("Introduzca el nombre del producto: ");
         p.nameProduct = sc.nextLine();
@@ -232,39 +226,46 @@ public class Store {
 
     //Attention please, metodo complicado
     public void chooseClient(ArrayList<Client> clientArrayList){
-        Scanner sc = new Scanner(System.in);
         System.out.println("Introduzca el Id del cliente a modificar: ");
         int choosedId = sc.nextInt();
+        sc.nextLine();
 
         boolean clientFound = false;
         for(Client c : clientArrayList){
             if(c.getUserID() == choosedId){
                 clientFound = true;
                 ModifyClientMenu(c);
-                break;
+
             }
-        }
-        if(!clientFound){
-            System.out.println("Cliente no encontrado.");
+            if(!clientFound){
+                System.out.println("Cliente no encontrado.");
+            }
         }
     }
 
     public void ModifyClientMenu(Client c){
-        Scanner sc = new Scanner(System.in);
+        printModifyClientMenu();
         int inputModifyClient = sc.nextInt();
+        sc.nextLine();
 
         switch (inputModifyClient){
             case 1:
                 System.out.println("Introduzca el nuevo nombre del cliente");
                 c.name = sc.nextLine();
+                System.out.println(c);
+                mainMenu();
                 break;
             case 2:
                 System.out.println("Introduzca el nuevo apellido del cliente");
                 c.surname = sc.nextLine();
+                System.out.println(c);
+                mainMenu();
                 break;
             case 3:
                 System.out.println("Introduzca el nuevo dinero del cliente");
                 c.money = sc.nextDouble();
+                System.out.println(c);
+                mainMenu();
                 break;
             case 4:
                 mainMenu();
@@ -274,22 +275,48 @@ public class Store {
         }
     }
 
+    //Attention please, metodo complicado
+    public void chooseProduct(ArrayList<Product> productArrayList){
+        System.out.println("Introduzca el Id del producto a modificar: ");
+        int choosedId = sc.nextInt();
+        sc.nextLine();
+
+        boolean productFound = false;
+        for(Product p : productArrayList){
+            if(p.getProductID() == choosedId){
+                productFound = true;
+                ModifyProductMenu(p);
+
+            }
+            if(!productFound){
+                System.out.println("Producto no encontrado.");
+            }
+        }
+    }
+
     public void ModifyProductMenu(Product p){
-        Scanner sc = new Scanner(System.in);
+        printModifyProductMenu();
         int inputModifyProduct = sc.nextInt();
+        sc.nextLine();
 
         switch (inputModifyProduct){
             case 1:
                 System.out.println("Introduzca el nuevo nombre del producto");
                 p.nameProduct = sc.nextLine();
+                System.out.println(p);
+                mainMenu();
                 break;
             case 2:
                 System.out.println("Introduzca el nuevo stock del producto");
                 p.stock = sc.nextInt();
+                System.out.println(p);
+                mainMenu();
                 break;
             case 3:
                 System.out.println("Introduzca el nuevo precio del producto");
                 p.price = sc.nextDouble();
+                System.out.println(p);
+                mainMenu();
                 break;
             case 4:
                 mainMenu();
@@ -300,11 +327,10 @@ public class Store {
     }
 
     public void deleteProduct(ArrayList <Product> products, Product p){
-        Scanner sc = new Scanner(System.in);
         System.out.println("Introduzca el id del producto: ");
-        p.productId = sc.nextInt();
+        p.productID = sc.nextInt();
         for (int i = 0; i < products.size(); i++) {
-            if (products.get(i).productId == p.productId) {
+            if (products.get(i).productID == p.productID) {
                 products.remove(i);
             }
         }
