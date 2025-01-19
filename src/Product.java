@@ -13,6 +13,14 @@ public class Product {
         this.price = price;
     }
 
+    public Product() {
+        this.productId = productId;
+        this.nameProduct = nameProduct;
+        this.stats = stats;
+        this.stock = stock;
+        this.price = price;
+    }
+
     public void setProductId(int productId) {
         this.productId = productId;
     }
@@ -24,5 +32,15 @@ public class Product {
     }
     public String getNameProduct() {
         return nameProduct;
+    }
+
+    @Override
+    public String toString() {
+        return "---PRODUCTO---\n" +
+                "Id= " + productId + '\n' +
+                "Nombre= " + nameProduct + '\n' +
+                "Estadisticas= " + stats + '\n' +
+                "Stock= " + stock + '\n' +
+                "Precio= " + price + '\n';
     }
 }

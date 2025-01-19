@@ -2,8 +2,24 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Store {
-    public Store(){
+    private Client client;
+    private Product product;
+    //declaracion de arraylist
+    private ArrayList<Client> clientArrayList;
+    private ArrayList<Product> productArrayList;
 
+    public Store(){
+        this.client = new Client();
+        this.product = new Product();
+
+        //instancia del arraylist desde la variable global
+        this.clientArrayList = new ArrayList<>();
+        //se crea de cero, un cliente predeterminado
+        clientArrayList.add(new Client(01, "Paco","Garcia",600));
+        clientArrayList.add(new Client(02, "Gilberto","Suarez",500));
+
+        this.productArrayList = new ArrayList<>();
+        productArrayList.add(new Product(01,"101","101",10,20));
     }
 
     public void printMainMenu(){
@@ -89,7 +105,6 @@ public class Store {
                 // Salir
                 System.out.println("Cerrando programa.");
                 break;
-
             default:
                 System.out.println("Opción no válida");
         }
@@ -101,11 +116,11 @@ public class Store {
         switch (inputRegister){
             case 1:
                 // Alta de Clientes
-                //registerClient();
+                registerClient(clientArrayList);
                 break;
             case 2:
                 // Alta de Productos
-                //registerProduct();
+                registerProduct(productArrayList);
                 break;
             case 3:
                 //Salida menu principal
@@ -122,8 +137,8 @@ public class Store {
         switch (inputModification){
             case 1:
                 // Modificacion de Clientes
-                printModifyClientMenu();
-                //ModifyClientMenu();
+                //printModifyClientMenu();
+                chooseClient(clientArrayList);
                 break;
             case 2:
                 // Modificacion de Productos
@@ -179,18 +194,30 @@ public class Store {
         }
     }
 
-    public void registerClient(Client c){
+    public void registerClient(ArrayList<Client> clientArrayList){
         Scanner sc = new Scanner(System.in);
+        Client c = new Client();
+
+        System.out.println("Introduzca el Id del cliente: ");
+        c.setUserID(sc.nextInt());
+        sc.nextLine();
         System.out.println("Introduzca el nombre del cliente: ");
-        c.name = sc.nextLine();
+        c.setName(sc.nextLine());
         System.out.println("Introduzca el apellido del cliente: ");
-        c.surname = sc.nextLine();
+        c.setSurname(sc.nextLine());
         System.out.println("Introduzca el dinero del cliente: ");
-        c.money = sc.nextDouble();
+        c.setMoney(sc.nextDouble());
+        clientArrayList.add(c);
+        System.out.println(c);
     }
 
-    public void registerProduct(Product p){
+    public void registerProduct(ArrayList<Product> productArrayList){
         Scanner sc = new Scanner(System.in);
+        Product p = new Product();
+
+        System.out.println("Introduzca el Id del producto: ");
+        p.setProductId(sc.nextInt());
+        sc.nextLine();
         System.out.println("Introduzca el nombre del producto: ");
         p.nameProduct = sc.nextLine();
         System.out.println("Introduzca las estadísticas del producto: ");
@@ -199,6 +226,27 @@ public class Store {
         p.price = sc.nextDouble();
         System.out.println("Introduzca el stock del producto: ");
         p.stock = sc.nextInt();
+        productArrayList.add(p);
+        System.out.println(p);
+    }
+
+    //Attention please, metodo complicado
+    public void chooseClient(ArrayList<Client> clientArrayList){
+        Scanner sc = new Scanner(System.in);
+        System.out.println("Introduzca el Id del cliente a modificar: ");
+        int choosedId = sc.nextInt();
+
+        boolean clientFound = false;
+        for(Client c : clientArrayList){
+            if(c.getUserID() == choosedId){
+                clientFound = true;
+                ModifyClientMenu(c);
+                break;
+            }
+        }
+        if(!clientFound){
+            System.out.println("Cliente no encontrado.");
+        }
     }
 
     public void ModifyClientMenu(Client c){
