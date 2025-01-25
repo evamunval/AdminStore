@@ -1,4 +1,4 @@
-public class Book extends Product{
+public class Book extends Product implements Alquilable{
     protected boolean borrow;
     protected String title;
     protected String author;
@@ -45,5 +45,30 @@ public class Book extends Product{
                 "Año de Publicación: " + yearOfPublication + '\n' +
                 "Stock: " + stock + '\n' +
                 "Prestado: " + borrow + '\n';
+    }
+
+    @Override
+    public boolean isBorrowed() {
+        return borrow;
+    }
+
+    @Override
+    public void lent() {
+        if (!borrow) {
+            borrow = true;
+            System.out.println("El libro \"" + title + "\" ha sido alquilado.");
+        } else {
+            System.out.println("El libro \"" + title + "\" ya está alquilado.");
+        }
+    }
+
+    @Override
+    public void bringBack() {
+        if (borrow) {
+            borrow = false;
+            System.out.println("El libro \"" + title + "\" ha sido devuelto.");
+        } else {
+            System.out.println("El libro \"" + title + "\" no estaba alquilado.");
+        }
     }
 }

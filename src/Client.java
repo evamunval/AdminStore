@@ -1,4 +1,4 @@
-public class Client extends Person {
+public class Client extends Person implements Comparable<Client>{
     protected double money;
 
     public Client(int userID, String name, String surname, double money) {
@@ -47,5 +47,11 @@ public class Client extends Person {
                 "Nombre= " + name + '\n' +
                 "Apellido= " + surname + '\n' +
                 "Dinero= " + money + '\n';
+    }
+
+    //Polimorfismo
+    @Override
+    public int compareTo(Client other) {
+        return Integer.compare(this.getUserID(), other.getUserID());
     }
 }

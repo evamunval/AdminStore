@@ -2,6 +2,8 @@ import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.InputMismatchException;
+import java.util.Iterator;
 import java.util.Scanner;
 
 public class Store {
@@ -33,7 +35,7 @@ public class Store {
 
         this.productArrayList = new ArrayList<>();
         productArrayList.add(new Weapon(01,"Master Sword","+101",5,149.99, WeaponType.SWORD));
-        productArrayList.add(new Potion(02,"Pocion de Vida","+30",20,20.30, PotionType.HEAL));
+        productArrayList.add(new Potion(02,"Pocion de Vida Mediana","+30",20,20.30, PotionType.HEAL));
         productArrayList.add(new Book(03,"Recetas de Campo","J.C.Rowling",1,1425, false));
         productArrayList.add(new Weapon(04,"Link Sword","+10",5,149.99, WeaponType.SWORD));
         productArrayList.add(new Weapon(05,"Shield","+10",1,100.99, WeaponType.SHIELD));
@@ -95,104 +97,138 @@ public class Store {
 
     public void mainMenu(){
         printMainMenu();
-        int userInput = sc.nextInt();
-
-        switch (userInput) {
-            case 1:
-                // Alta de Clientes y/o Productos
-                printRegisterMenu();
-                registerMenu();
-                break;
-            case 2:
-                // Modificacion de Clientes y/o Productos
-                printModifyMenu();
-                modifyMenu();
-                break;
-            case 3:
-                // Eliminar Clientes y/o Productos
-                printDeleteMenu();
-                deleteMenu();
-                break;
-            case 4:
-                //Compra y Alquileres
-                printSalesMenu();
-                salesMenu();
-            case 5:
-                // Salir
-                System.out.println("Cerrando programa.");
-                break;
-            default:
-                System.out.println("Opción no válida");
+        int userInput = 0;
+        while (userInput != 4) {
+            try {
+                userInput = sc.nextInt();
+                switch (userInput) {
+                    case 1:
+                        // Alta de Clientes y/o Productos
+                        printRegisterMenu();
+                        registerMenu();
+                        break;
+                    case 2:
+                        // Modificacion de Clientes y/o Productos
+                        printModifyMenu();
+                        modifyMenu();
+                        break;
+                    case 3:
+                        // Eliminar Clientes y/o Productos
+                        printDeleteMenu();
+                        deleteMenu();
+                        break;
+                    case 4:
+                        //Compra y Alquileres
+                        printSalesMenu();
+                        salesMenu();
+                    case 5:
+                        // Salir
+                        System.out.println("Cerrando programa.");
+                        break;
+                    default:
+                        System.out.println("Opción no válida");
+                }
+            }catch (InputMismatchException e) {
+                System.out.println("Entrada inválida. Por favor, introduce un número válido.");
+                sc.nextLine();
+                printMainMenu();
+            }
         }
     }
 
     public void registerMenu() {
-        int inputRegister = sc.nextInt();
-        switch (inputRegister){
-            case 1:
-                // Alta de Clientes
-                registerClient(clientArrayList);
-                break;
-            case 2:
-                // Alta de Productos
-                registerProduct(productArrayList);
-                break;
-            case 3:
-                //Salida menu principal
-                mainMenu();
-                break;
-            default:
-                System.out.println("Opción no válida");
+        int inputRegister = 0;
+        while (inputRegister != 3) {
+            try {
+                inputRegister = sc.nextInt();
+                switch (inputRegister) {
+                    case 1:
+                        // Alta de Clientes
+                        registerClient(clientArrayList);
+                        break;
+                    case 2:
+                        // Alta de Productos
+                        registerProduct(productArrayList);
+                        break;
+                    case 3:
+                        //Salida menu principal
+                        mainMenu();
+                        break;
+                    default:
+                        System.out.println("Opción no válida");
+                }
+            }catch (InputMismatchException e) {
+                System.out.println("Entrada inválida. Por favor, introduce un número válido.");
+                sc.nextLine();
+                printRegisterMenu();
+            }
         }
     }
 
     public void modifyMenu(){
-        int inputModification = sc.nextInt();
-        switch (inputModification){
-            case 1:
-                // Modificacion de Clientes
-                chooseClient(clientArrayList);
-                break;
-            case 2:
-                // Modificacion de Productos
-                chooseProduct(productArrayList);
-                break;
-            case 3:
-                //Salida menu principal
-                mainMenu();
-            default:
-                System.out.println("Opción no válida");
+        int inputModification = 0;
+        while (inputModification != 3) {
+            try {
+                inputModification = sc.nextInt();
+                switch (inputModification) {
+                    case 1:
+                        // Modificacion de Clientes
+                        chooseClient(clientArrayList);
+                        break;
+                    case 2:
+                        // Modificacion de Productos
+                        chooseProduct(productArrayList);
+                        break;
+                    case 3:
+                        //Salida menu principal
+                        mainMenu();
+                    default:
+                        System.out.println("Opción no válida");
+                }
+            }catch (InputMismatchException e) {
+                System.out.println("Entrada inválida. Por favor, introduce un número válido.");
+                sc.nextLine();
+                printRegisterMenu();
+            }
         }
     }
 
     public void deleteMenu(){
-        int inputErase = sc.nextInt();
-        switch (inputErase){
-            case 1:
-                // Eliminar Clientes
-                deleteClient(clientArrayList);
-                mainMenu();
-                break;
-            case 2:
-                // Eliminar Productos
-                deleteProduct(productArrayList);
-                mainMenu();
-                break;
-            case 3:
-                //Salida menu principal
-                mainMenu();
-            default:
-                System.out.println("Opción no válida");
+        int inputErase = 0;
+        while (inputErase != 3) {
+            try {
+                inputErase = sc.nextInt();
+                switch (inputErase) {
+                    case 1:
+                        // Eliminar Clientes
+                        deleteClient(clientArrayList);
+                        mainMenu();
+                        break;
+                    case 2:
+                        // Eliminar Productos
+                        deleteProduct(productArrayList);
+                        mainMenu();
+                        break;
+                    case 3:
+                        //Salida menu principal
+                        mainMenu();
+                    default:
+                        System.out.println("Opción no válida");
+                }
+            }catch (InputMismatchException e) {
+                System.out.println("Entrada inválida. Por favor, introduce un número válido.");
+                sc.nextLine();
+                printRegisterMenu();
+            }
         }
     }
 
     public void salesMenu(){
         int salesInput = 0;
-        do {
-            salesInput = sc.nextInt();
-            sc.nextLine();
+        while (salesInput != 4) {
             try {
-                isStringInt(String.valueOf(salesInput));
+                salesInput = sc.nextInt();
+                sc.nextLine();
                 switch (salesInput) {
                     case 1:
                         System.out.println("Introduce el id del cliente:");
@@ -200,9 +236,11 @@ public class Store {
                         sc.nextLine();
 
                         for (Client client : clientArrayList) {
-                            if (client.getUserID() == clientID && client instanceof Warrior) {
+                            Client tempClient = new Client();
+                            tempClient.setUserID(clientID);
+                            if (client.compareTo(tempClient) == 0 && client instanceof Warrior) {
                                 System.out.println("1. Comprar Equipo");
-                                GearSales();
+                                gearSales();
                             }
                         }
                         System.out.println("Solo pueden comprar equipo los guerreros.");
@@ -210,11 +248,23 @@ public class Store {
                         break;
                     case 2:
                         System.out.println("2. Comprar Pociones");
-                        PotionSales();
+                        potionSales();
                         break;
                     case 3:
-                        System.out.println("3. Alquiler Libros");
-                        bookBorrow();
+                        System.out.println("Introduce el id del cliente:");
+                        clientID = sc.nextInt();
+                        sc.nextLine();
+
+                        for (Client client : clientArrayList) {
+                            Client tempClient = new Client();
+                            tempClient.setUserID(clientID);
+                            if (client.compareTo(tempClient) == 0 && client instanceof Mage) {
+                                System.out.println("3. Alquiler Libros");
+                                bookBorrow();
+                            }
+                        }
+                        System.out.println("Solo pueden alquilar libros los magos.");
+                        printSalesMenu();
                         break;
                     case 4:
                         System.out.println("4. Volver al menu principal");
@@ -223,24 +273,15 @@ public class Store {
                     default:
                         System.out.println("Opción no valida!");
                 }
-            }catch (NumberFormatException e){
+            } catch (InputMismatchException e) {
                 System.out.println("Entrada inválida. Por favor, introduce un número válido.");
+                sc.nextLine();
+                printSalesMenu();
             }
-        } while (salesInput != 4) ;
-    }
-
-    public void isStringInt(String s)
-    {
-        try
-        {
-            Integer.parseInt(s);
-        } catch (NumberFormatException ex)
-        {
-            throw new NumberFormatException("el numerito no es numerico");
         }
     }
 
-    public boolean GearSales(){
+    public boolean gearSales(){
         for(Product product : productArrayList) {
             if (product instanceof Weapon) {
                     System.out.println("Producto: " + product.getNameProduct() + '\n' +
@@ -250,23 +291,16 @@ public class Store {
             }
         }
 
-        System.out.println("Introduce el id del cliente:");
-        int id = sc.nextInt();
-        sc.nextLine();
+        System.out.println("Introduce el nombre del elemento a comprar: ");
+        String inputElement = sc.nextLine();
 
-        for(Client client : clientArrayList) {
-            if(client.getUserID() == id){
-                System.out.println("Introduce el nombre del elemento a comprar: ");
-                String inputElement = sc.nextLine();
-                for(Product product : productArrayList) {
-                    if(inputElement.equals(product.getNameProduct()) && product.getPrice() <= client.getMoney() && product.getStock() > 0){
-                        client.money -= product.getPrice();
-                        product.stock--;
-                        System.out.println("Compra realizada!");
-                        mainMenu();
-                        return true;
-                    }
-                }
+        for(Product product : productArrayList) {
+            if(inputElement.equals(product.getNameProduct()) && product.getPrice() <= client.getMoney() && product.getStock() > 0){
+                client.money -= product.getPrice();
+                product.stock--;
+                System.out.println("Compra realizada!");
+                mainMenu();
+                return true;
             }
         }
         System.out.println("No se ha podido realizar la compra!");
@@ -274,7 +308,7 @@ public class Store {
         return false;
     }
 
-    public boolean PotionSales(){
+    public boolean potionSales(){
         for(Product product : productArrayList) {
             if(product instanceof Potion){
                 System.out.println("Producto: " + product.getNameProduct() + '\n' +
@@ -293,7 +327,7 @@ public class Store {
                 System.out.println("Introduce el nombre del elemento a comprar: ");
                 String inputElement = sc.nextLine();
                 for(Product product : productArrayList) {
-                    if(inputElement.equals(product.getNameProduct()) && product.getPrice() <= client.getMoney() && product.getStock() > 0){
+                    if((inputElement.equals(product.getNameProduct())) && (product.getPrice() <= client.getMoney()) && (product.getStock() > 0)){
                         client.money -= product.getPrice();
                         product.stock--;
                         System.out.println("Compra realizada!");
@@ -312,38 +346,39 @@ public class Store {
         LocalDateTime date = localDateTime.plusMonths(1);
         Timestamp dueDate = Timestamp.valueOf(date);
         for(Product product : productArrayList) {
-            if(product instanceof Book){
-                System.out.println("Producto: " + ((Book) product).getTitle() + '\n' +
-                        "Autor: " + ((Book) product).getAuthor()+ '\n' +
-                        "Año de Publicación: " + ((Book) product).getYearOfPublication()+ '\n' +
-                        "Stock: " + product.getStock()+ '\n' +
-                        "Prestado: " + ((Book) product).getBorrow());
+            if(product instanceof Alquilable) {
+                Alquilable alquilable = (Alquilable) product;
+                if (product instanceof Book) {
+                    Book book = (Book) product;
+                    System.out.println("Producto: " + ((Book) product).getTitle() + '\n' +
+                            "Autor: " + ((Book) product).getAuthor() + '\n' +
+                            "Año de Publicación: " + ((Book) product).getYearOfPublication() + '\n' +
+                            "Stock: " + product.getStock() + '\n' +
+                            "Prestado: " + alquilable.isBorrowed());
+                }
             }
         }
 
-        System.out.println("Introduce el id del cliente:");
-        int id = sc.nextInt();
-        sc.nextLine();
+        System.out.println("Introduce el nombre del libro que quieras alquilar: ");
+        String inputElement = sc.nextLine();
 
-        for(Client client : clientArrayList) {
-            if(client.getUserID() == id){
-                System.out.println("Introduce el nombre del libro que quieras alquilar: ");
-                String inputElement = sc.nextLine();
-                for(Product product : productArrayList) {
-                    if(product instanceof Book){
-                        if(inputElement.equals(((Book) product).getTitle()) && product.getStock() > 0){
-                            if(!((Book) product).borrow){
-                                ((Book) product).borrow = true;
-                                product.stock--;
-                                System.out.println("Alquiler realizado: " + sdf1.format(timestamp) + "\n" + "Fecha de devolución: " + sdf2.format(dueDate));
-                                mainMenu();
-                                return true;
-                            }
-                        }
+        for(Product product : productArrayList) {
+            if(product instanceof Book && product instanceof Alquilable){
+                Alquilable alquilable = (Alquilable) product;
+                Book book = (Book) product;
+
+                if(inputElement.equals(((Book) product).getTitle()) && product.getStock() > 0){
+                    if(!alquilable.isBorrowed()){
+                        alquilable.lent();
+                        product.stock--;
+                        System.out.println("Alquiler realizado: " + sdf1.format(timestamp) + "\n" + "Fecha de devolución: " + sdf2.format(dueDate));
+                        mainMenu();
+                        return true;
                     }
                 }
             }
         }
+
         System.out.println("No se ha podido realizar el alquiler!" + "\n" + "Fecha de devolución:" + sdf2.format(dueDate));
         mainMenu();
         return false;
@@ -380,8 +415,16 @@ public class Store {
         p.price = sc.nextDouble();
         System.out.println("Introduzca el stock del producto: ");
         p.stock = sc.nextInt();
+
         productArrayList.add(p);
         System.out.println(p);
+
+        //Clonacion
+        Product clone = new Product();
+        p.cloneTo(clone);
+        System.out.println("Clon del producto creado: " + clone);
+        //Agregar al ArrayList
+        productArrayList.add(clone);
     }
 
     //Attention please, metodo complicado
@@ -395,7 +438,7 @@ public class Store {
             if(c.getUserID() == choosedId){
                 clientFound = true;
                 System.out.println("Modificación exitosa!");
-                ModifyClientMenu(c);
+                modifyClientMenu(c);
             }
             if(!clientFound){
                 System.out.println("Cliente no encontrado.");
@@ -403,35 +446,44 @@ public class Store {
         }
     }
 
-    public void ModifyClientMenu(Client c){
+    public void modifyClientMenu(Client c){
         printModifyClientMenu();
-        int inputModifyClient = sc.nextInt();
-        sc.nextLine();
+        int inputModifyClient = 0;
 
-        switch (inputModifyClient){
-            case 1:
-                System.out.println("Introduzca el nuevo nombre del cliente");
-                c.name = sc.nextLine();
-                System.out.println(c);
-                mainMenu();
-                break;
-            case 2:
-                System.out.println("Introduzca el nuevo apellido del cliente");
-                c.surname = sc.nextLine();
-                System.out.println(c);
-                mainMenu();
-                break;
-            case 3:
-                System.out.println("Introduzca el nuevo dinero del cliente");
-                c.money = sc.nextDouble();
-                System.out.println(c);
-                mainMenu();
-                break;
-            case 4:
-                mainMenu();
-                break;
-            default:
-                System.out.println("Opción no valida!");
+        while (inputModifyClient != 4) {
+            try {
+                inputModifyClient = sc.nextInt();
+                sc.nextLine();
+                switch (inputModifyClient) {
+                    case 1:
+                        System.out.println("Introduzca el nuevo nombre del cliente");
+                        c.name = sc.nextLine();
+                        System.out.println(c);
+                        mainMenu();
+                        break;
+                    case 2:
+                        System.out.println("Introduzca el nuevo apellido del cliente");
+                        c.surname = sc.nextLine();
+                        System.out.println(c);
+                        mainMenu();
+                        break;
+                    case 3:
+                        System.out.println("Introduzca el nuevo dinero del cliente");
+                        c.money = sc.nextDouble();
+                        System.out.println(c);
+                        mainMenu();
+                        break;
+                    case 4:
+                        mainMenu();
+                        break;
+                    default:
+                        System.out.println("Opción no valida!");
+                }
+            }catch (InputMismatchException e) {
+                System.out.println("Entrada inválida. Por favor, introduce un número válido.");
+                sc.nextLine();
+                printRegisterMenu();
+            }
         }
     }
 
@@ -442,11 +494,12 @@ public class Store {
         sc.nextLine();
 
         boolean productFound = false;
-        for(Product p : productArrayList){
-            if(p.getProductID() == choosedId){
+        Iterator <Product> iterator = productArrayList.iterator();
+        while(iterator.hasNext()){
+            if(iterator.next().getProductID() == choosedId){
                 productFound = true;
                 System.out.println("Modificación exitosa!");
-                ModifyProductMenu(p);
+                modifyProductMenu(iterator.next());
             }
             if(!productFound){
                 System.out.println("Producto no encontrado.");
@@ -454,35 +507,44 @@ public class Store {
         }
     }
 
-    public void ModifyProductMenu(Product p){
+    public void modifyProductMenu(Product p){
         printModifyProductMenu();
-        int inputModifyProduct = sc.nextInt();
-        sc.nextLine();
+        int inputModifyProduct = 0;
 
-        switch (inputModifyProduct){
-            case 1:
-                System.out.println("Introduzca el nuevo nombre del producto");
-                p.nameProduct = sc.nextLine();
-                System.out.println(p);
-                mainMenu();
-                break;
-            case 2:
-                System.out.println("Introduzca el nuevo stock del producto");
-                p.stock = sc.nextInt();
-                System.out.println(p);
-                mainMenu();
-                break;
-            case 3:
-                System.out.println("Introduzca el nuevo precio del producto");
-                p.price = sc.nextDouble();
-                System.out.println(p);
-                mainMenu();
-                break;
-            case 4:
-                mainMenu();
-                break;
-            default:
-                System.out.println("Opción no valida!");
+        while (inputModifyProduct != 4) {
+            inputModifyProduct = sc.nextInt();
+            sc.nextLine();
+            try {
+                switch (inputModifyProduct) {
+                    case 1:
+                        System.out.println("Introduzca el nuevo nombre del producto");
+                        p.nameProduct = sc.nextLine();
+                        System.out.println(p);
+                        mainMenu();
+                        break;
+                    case 2:
+                        System.out.println("Introduzca el nuevo stock del producto");
+                        p.stock = sc.nextInt();
+                        System.out.println(p);
+                        mainMenu();
+                        break;
+                    case 3:
+                        System.out.println("Introduzca el nuevo precio del producto");
+                        p.price = sc.nextDouble();
+                        System.out.println(p);
+                        mainMenu();
+                        break;
+                    case 4:
+                        mainMenu();
+                        break;
+                    default:
+                        System.out.println("Opción no valida!");
+                }
+            }catch (InputMismatchException e) {
+                System.out.println("Entrada inválida. Por favor, introduce un número válido.");
+                sc.nextLine();
+                printRegisterMenu();
+            }
         }
     }
 

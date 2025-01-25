@@ -1,4 +1,4 @@
-public class Product {
+public class Product implements Cloneable{
     protected int productID;
     protected String nameProduct;
     protected String stats;
@@ -42,8 +42,17 @@ public class Product {
     public double getPrice() {
         return price;
     }
+    public void setStats(String stats) {
+        this.stats = stats;
+    }
+    public String getStats() {
+        return stats;
+    }
     public int getStock() {
         return stock;
+    }
+    public void setStock(int stock) {
+        this.stock = stock;
     }
 
     @Override
@@ -54,5 +63,24 @@ public class Product {
                 "Estadisticas= " + stats + '\n' +
                 "Stock= " + stock + '\n' +
                 "Precio= " + price + '\n';
+    }
+
+    public void cloneTo(Product other) {
+        other.productID = productID;
+        other.nameProduct = nameProduct;
+        other.stats = stats;
+        other.price = price;
+        other.stock = stock;
+    }
+
+    @Override
+    public Product clone() {
+        try {
+            Product clone = (Product) super.clone();
+            // TODO: copy mutable state here, so the clone can't change the internals of the original
+            return clone;
+        } catch (CloneNotSupportedException e) {
+            throw new AssertionError();
+        }
     }
 }
