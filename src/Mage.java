@@ -13,4 +13,10 @@ public class Mage extends Client{
         }
         return false;
     }
+
+    @Override
+    public String toString() {
+        return super.toString() +
+                "Mago = " + read + '\n';
+    }
 }

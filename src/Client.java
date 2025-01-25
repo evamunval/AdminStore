@@ -33,7 +33,6 @@ public class Client extends Person {
     public void setUserID(int userID) {
         this.userID = userID;
     }
-
     public double getMoney() {
         return money;
     }

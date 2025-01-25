@@ -1,3 +1,6 @@
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -8,20 +11,32 @@ public class Store {
     private ArrayList<Client> clientArrayList;
     private ArrayList<Product> productArrayList;
     private Scanner sc;
+    private int clientID;
+    private Timestamp timestamp;
+    private static final SimpleDateFormat sdf1 = new SimpleDateFormat("dd/MM/yyyy");
+    private static final SimpleDateFormat sdf2 = new SimpleDateFormat("dd/MM/yyyy");
+    private final LocalDateTime localDateTime;
 
     public Store(){
         this.client = new Client();
         this.product = new Product();
         this.sc = new Scanner(System.in);
+        this.clientID = clientID;
+        this.timestamp = new Timestamp(System.currentTimeMillis());
+        this.localDateTime = timestamp.toLocalDateTime();
 
         //instancia del arraylist desde la variable global
         this.clientArrayList = new ArrayList<>();
         //se crea de cero, un cliente predeterminado
-        clientArrayList.add(new Client(01, "Paco","Garcia",600));
-        clientArrayList.add(new Client(02, "Gilberto","Suarez",500));
+        clientArrayList.add(new Mage(01, "Paco","Garcia",600, true));
+        clientArrayList.add(new Warrior(02, "Gilberto","Suarez",500, true));
 
         this.productArrayList = new ArrayList<>();
-        productArrayList.add(new Product(01,"101","101",10,20));
+        productArrayList.add(new Weapon(01,"Master Sword","+101",5,149.99, WeaponType.SWORD));
+        productArrayList.add(new Potion(02,"Pocion de Vida","+30",20,20.30, PotionType.HEAL));
+        productArrayList.add(new Book(03,"Recetas de Campo","J.C.Rowling",1,1425, false));
+        productArrayList.add(new Weapon(04,"Link Sword","+10",5,149.99, WeaponType.SWORD));
+        productArrayList.add(new Weapon(05,"Shield","+10",1,100.99, WeaponType.SHIELD));
     }
 
     public void printMainMenu(){
@@ -65,10 +80,10 @@ public class Store {
 
     public void printSalesMenu(){
         System.out.println("Compra y Alquileres:");
-        System.out.println("1. Comprar Espadas");
+        System.out.println("1. Comprar Equipo");
         System.out.println("2. Comprar Pociones");
-        System.out.println("2. Alquiler Libros");
-        System.out.println("3. Volver al menu principal");
+        System.out.println("3. Alquiler Libros");
+        System.out.println("4. Volver al menu principal");
     }
 
     public void printDeleteMenu(){
@@ -155,11 +170,13 @@ public class Store {
         switch (inputErase){
             case 1:
                 // Eliminar Clientes
-                System.out.println("Eliminación de Clientes");
+                deleteClient(clientArrayList);
+                mainMenu();
                 break;
             case 2:
                 // Eliminar Productos
-                System.out.println("Eliminación de Productos");
+                deleteProduct(productArrayList);
+                mainMenu();
                 break;
             case 3:
                 //Salida menu principal
@@ -170,23 +187,166 @@ public class Store {
     }
 
     public void salesMenu(){
-        int salesInput = sc.nextInt();
-        switch (salesInput){
-            case 1:
-                System.out.println("1. Comprar Espadas");
-                break;
-            case 2:
-                System.out.println("2. Comprar Pociones");
-                break;
-            case 3:
-                System.out.println("3. Alquiler Libros");
-                break;
-            case 4:
-                System.out.println("4. Volver al menu principal");
-                break;
-            default:
-                System.out.println("Opción no valida!");
+        int salesInput = 0;
+        do {
+            salesInput = sc.nextInt();
+            sc.nextLine();
+            try {
+                isStringInt(String.valueOf(salesInput));
+                switch (salesInput) {
+                    case 1:
+                        System.out.println("Introduce el id del cliente:");
+                        clientID = sc.nextInt();
+                        sc.nextLine();
+
+                        for (Client client : clientArrayList) {
+                            if (client.getUserID() == clientID && client instanceof Warrior) {
+                                System.out.println("1. Comprar Equipo");
+                                GearSales();
+                            }
+                        }
+                        System.out.println("Solo pueden comprar equipo los guerreros.");
+                        printSalesMenu();
+                        break;
+                    case 2:
+                        System.out.println("2. Comprar Pociones");
+                        PotionSales();
+                        break;
+                    case 3:
+                        System.out.println("3. Alquiler Libros");
+                        bookBorrow();
+                        break;
+                    case 4:
+                        System.out.println("4. Volver al menu principal");
+                        mainMenu();
+                        break;
+                    default:
+                        System.out.println("Opción no valida!");
+                }
+            }catch (NumberFormatException e){
+                System.out.println("Entrada inválida. Por favor, introduce un número válido.");
+            }
+        } while (salesInput != 4) ;
+    }
+
+    public void isStringInt(String s)
+    {
+        try
+        {
+            Integer.parseInt(s);
+        } catch (NumberFormatException ex)
+        {
+            throw new NumberFormatException("el numerito no es numerico");
         }
+    }
+
+    public boolean GearSales(){
+        for(Product product : productArrayList) {
+            if (product instanceof Weapon) {
+                    System.out.println("Producto: " + product.getNameProduct() + '\n' +
+                            "ID: " + product.getProductID() + '\n' +
+                            "Stock: " + product.getStock() + '\n' +
+                            "Precio: " + product.getPrice() + '\n');
+            }
+        }
+
+        System.out.println("Introduce el id del cliente:");
+        int id = sc.nextInt();
+        sc.nextLine();
+
+        for(Client client : clientArrayList) {
+            if(client.getUserID() == id){
+                System.out.println("Introduce el nombre del elemento a comprar: ");
+                String inputElement = sc.nextLine();
+                for(Product product : productArrayList) {
+                    if(inputElement.equals(product.getNameProduct()) && product.getPrice() <= client.getMoney() && product.getStock() > 0){
+                        client.money -= product.getPrice();
+                        product.stock--;
+                        System.out.println("Compra realizada!");
+                        mainMenu();
+                        return true;
+                    }
+                }
+            }
+        }
+        System.out.println("No se ha podido realizar la compra!");
+        mainMenu();
+        return false;
+    }
+
+    public boolean PotionSales(){
+        for(Product product : productArrayList) {
+            if(product instanceof Potion){
+                System.out.println("Producto: " + product.getNameProduct() + '\n' +
+                        "ID: " + product.getProductID() + '\n' +
+                        "Stock: " + product.getStock() + '\n' +
+                        "Precio: " + product.getPrice() + '\n');
+            }
+        }
+
+        System.out.println("Introduce el id del cliente:");
+        int id = sc.nextInt();
+        sc.nextLine();
+
+        for(Client client : clientArrayList) {
+            if(client.getUserID() == id){
+                System.out.println("Introduce el nombre del elemento a comprar: ");
+                String inputElement = sc.nextLine();
+                for(Product product : productArrayList) {
+                    if(inputElement.equals(product.getNameProduct()) && product.getPrice() <= client.getMoney() && product.getStock() > 0){
+                        client.money -= product.getPrice();
+                        product.stock--;
+                        System.out.println("Compra realizada!");
+                        mainMenu();
+                        return true;
+                    }
+                }
+            }
+        }
+        System.out.println("No se ha podido realizar la compra!");
+        mainMenu();
+        return false;
+    }
+
+    public boolean bookBorrow(){
+        LocalDateTime date = localDateTime.plusMonths(1);
+        Timestamp dueDate = Timestamp.valueOf(date);
+        for(Product product : productArrayList) {
+            if(product instanceof Book){
+                System.out.println("Producto: " + ((Book) product).getTitle() + '\n' +
+                        "Autor: " + ((Book) product).getAuthor()+ '\n' +
+                        "Año de Publicación: " + ((Book) product).getYearOfPublication()+ '\n' +
+                        "Stock: " + product.getStock()+ '\n' +
+                        "Prestado: " + ((Book) product).getBorrow());
+            }
+        }
+
+        System.out.println("Introduce el id del cliente:");
+        int id = sc.nextInt();
+        sc.nextLine();
+
+        for(Client client : clientArrayList) {
+            if(client.getUserID() == id){
+                System.out.println("Introduce el nombre del libro que quieras alquilar: ");
+                String inputElement = sc.nextLine();
+                for(Product product : productArrayList) {
+                    if(product instanceof Book){
+                        if(inputElement.equals(((Book) product).getTitle()) && product.getStock() > 0){
+                            if(!((Book) product).borrow){
+                                ((Book) product).borrow = true;
+                                product.stock--;
+                                System.out.println("Alquiler realizado: " + sdf1.format(timestamp) + "\n" + "Fecha de devolución: " + sdf2.format(dueDate));
+                                mainMenu();
+                                return true;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        System.out.println("No se ha podido realizar el alquiler!" + "\n" + "Fecha de devolución:" + sdf2.format(dueDate));
+        mainMenu();
+        return false;
     }
 
     public void registerClient(ArrayList<Client> clientArrayList){
@@ -234,8 +394,8 @@ public class Store {
         for(Client c : clientArrayList){
             if(c.getUserID() == choosedId){
                 clientFound = true;
+                System.out.println("Modificación exitosa!");
                 ModifyClientMenu(c);
-
             }
             if(!clientFound){
                 System.out.println("Cliente no encontrado.");
@@ -285,8 +445,8 @@ public class Store {
         for(Product p : productArrayList){
             if(p.getProductID() == choosedId){
                 productFound = true;
+                System.out.println("Modificación exitosa!");
                 ModifyProductMenu(p);
-
             }
             if(!productFound){
                 System.out.println("Producto no encontrado.");
@@ -326,12 +486,40 @@ public class Store {
         }
     }
 
-    public void deleteProduct(ArrayList <Product> products, Product p){
-        System.out.println("Introduzca el id del producto: ");
-        p.productID = sc.nextInt();
-        for (int i = 0; i < products.size(); i++) {
-            if (products.get(i).productID == p.productID) {
-                products.remove(i);
+    public void deleteClient(ArrayList <Client> clientArrayList){
+        System.out.println("Introduzca el Id del cliente: ");
+        int choosedID = sc.nextInt();
+        sc.nextLine();
+
+        boolean clientFound = false;
+        for(Client c : clientArrayList){
+            if(c.getUserID() == choosedID){
+                clientFound = true;
+                clientArrayList.remove(c);
+                System.out.println("Eliminado con exito!");
+            }
+            if(!clientFound){
+                System.out.println("Cliente no encontrado.");
+            }
+        }
+    }
+
+    public void deleteProduct(ArrayList <Product> productArrayList){
+        System.out.println(productArrayList);
+
+        System.out.println("Introduzca el Id del producto: ");
+        int choosedID = sc.nextInt();
+        sc.nextLine();
+
+        boolean productFound = false;
+        for(Product p : productArrayList){
+            if(p.getProductID() == choosedID){
+                productFound = true;
+                productArrayList.remove(p);
+                System.out.println("Eliminado con exito!");
+            }
+            if(!productFound){
+                System.out.println("Producto no encontrado.");
             }
         }
     }

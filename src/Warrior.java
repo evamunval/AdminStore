@@ -6,11 +6,16 @@ public class Warrior extends Client{
         this.fight = fight;
     }
 
-    public boolean canFight() {
-        if (!fight) {
-            fight = true;
-            return true;
-        }
-        return false;
+    public boolean getFight() {
+        return fight;
+    }
+    public void setFight(boolean fight) {
+        this.fight = fight;
+    }
+
+    @Override
+    public String toString() {
+        return super.toString() +
+                "Guerrero = " + fight + '\n';
     }
 }
