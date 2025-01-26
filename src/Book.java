@@ -15,38 +15,14 @@ public class Book extends Product implements Alquilable{
     public String getTitle() {
         return title;
     }
-    public void setTitle(String title) {
-        this.title = title;
-    }
     public String getAuthor() {
         return author;
-    }
-    public void setAuthor(String author) {
-        this.author = author;
     }
     public int getYearOfPublication() {
         return yearOfPublication;
     }
-    public void setYearOfPublication(int yearOfPublication) {
-        this.yearOfPublication = yearOfPublication;
-    }
-    public void setBorrow(boolean borrow) {
-         this.borrow = false;
-    }
-    public boolean getBorrow() {
-        return borrow;
-    }
 
-    @Override
-    public String toString() {
-        return "\n---LIBRO---\n" +
-                "Título: " + title + '\n' +
-                "Autor: " + author + '\n' +
-                "Año de Publicación: " + yearOfPublication + '\n' +
-                "Stock: " + stock + '\n' +
-                "Prestado: " + borrow + '\n';
-    }
-
+    //Métodos de la interfaz propia Alquilable
     @Override
     public boolean isBorrowed() {
         return borrow;
@@ -70,5 +46,15 @@ public class Book extends Product implements Alquilable{
         } else {
             System.out.println("El libro \"" + title + "\" no estaba alquilado.");
         }
+    }
+
+    @Override
+    public String toString() {
+        return "\n---LIBRO---\n" +
+                "Título: " + title + '\n' +
+                "Autor: " + author + '\n' +
+                "Año de Publicación: " + yearOfPublication + '\n' +
+                "Stock: " + stock + '\n' +
+                "Prestado: " + borrow + '\n';
     }
 }

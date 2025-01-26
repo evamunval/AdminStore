@@ -9,7 +9,7 @@ import java.util.Scanner;
 public class Store {
     private Client client;
     private Product product;
-    //declaracion de arraylist
+    //Declaraciones arraylist
     private ArrayList<Client> clientArrayList;
     private ArrayList<Product> productArrayList;
     private Scanner sc;
@@ -30,8 +30,11 @@ public class Store {
         //instancia del arraylist desde la variable global
         this.clientArrayList = new ArrayList<>();
         //se crea de cero, un cliente predeterminado
-        clientArrayList.add(new Mage(01, "Paco","Garcia",600, true));
-        clientArrayList.add(new Warrior(02, "Gilberto","Suarez",500, true));
+        clientArrayList.add(new Mage(01, "Paco","Garcia",600.23, true));
+        clientArrayList.add(new Warrior(02, "Gilberto","Suarez",80.99, true));
+        clientArrayList.add(new Mage(03, "Adrian","Gonzalez",90.08, true));
+        clientArrayList.add(new Warrior(04, "Eva","Munar",200.99, true));
+        clientArrayList.add(new Mage(05, "Raul","Gil",100.99, true));
 
         this.productArrayList = new ArrayList<>();
         productArrayList.add(new Weapon(01,"Master Sword","+101",5,149.99, WeaponType.SWORD));
@@ -85,7 +88,8 @@ public class Store {
         System.out.println("1. Comprar Equipo");
         System.out.println("2. Comprar Pociones");
         System.out.println("3. Alquiler Libros");
-        System.out.println("4. Volver al menu principal");
+        System.out.println("4. Devolver Libros");
+        System.out.println("5. Volver al menu principal");
     }
 
     public void printDeleteMenu(){
@@ -225,7 +229,7 @@ public class Store {
 
     public void salesMenu(){
         int salesInput = 0;
-        while (salesInput != 4) {
+        while (salesInput != 5) {
             try {
                 salesInput = sc.nextInt();
                 sc.nextLine();
@@ -267,6 +271,22 @@ public class Store {
                         printSalesMenu();
                         break;
                     case 4:
+                        System.out.println("Introduce el id del cliente:");
+                        clientID = sc.nextInt();
+                        sc.nextLine();
+
+                        for (Client client : clientArrayList) {
+                            Client tempClient = new Client();
+                            tempClient.setUserID(clientID);
+                            if (client.compareTo(tempClient) == 0 && client instanceof Mage) {
+                                System.out.println("3. Devolución Libros");
+                                bookReturn();
+                            }
+                        }
+                        System.out.println("Solo pueden devolver libros los magos.");
+                        printSalesMenu();
+                        break;
+                    case 5:
                         System.out.println("4. Volver al menu principal");
                         mainMenu();
                         break;
@@ -372,7 +392,7 @@ public class Store {
                         alquilable.lent();
                         product.stock--;
                         System.out.println("Alquiler realizado: " + sdf1.format(timestamp) + "\n" + "Fecha de devolución: " + sdf2.format(dueDate));
-                        mainMenu();
+                        salesMenu();
                         return true;
                     }
                 }
@@ -380,9 +400,50 @@ public class Store {
         }
 
         System.out.println("No se ha podido realizar el alquiler!" + "\n" + "Fecha de devolución:" + sdf2.format(dueDate));
-        mainMenu();
+        salesMenu();
         return false;
     }
+
+    public boolean bookReturn() {
+        for (Product product : productArrayList) {
+            if (product instanceof Alquilable && product instanceof Book) {
+                Alquilable alquilable = (Alquilable) product;
+                Book book = (Book) product;
+
+                if (alquilable.isBorrowed()) {
+                    System.out.println("Producto: " + book.getTitle() + '\n' +
+                            "Autor: " + book.getAuthor() + '\n' +
+                            "Año de Publicación: " + book.getYearOfPublication() + '\n' +
+                            "Prestado: " + alquilable.isBorrowed());
+                }
+            }
+        }
+
+        System.out.println("Introduce el nombre del libro que quieras devolver: ");
+        String inputElement = sc.nextLine();
+
+        for (Product product : productArrayList) {
+            if (product instanceof Alquilable && product instanceof Book) {
+                Alquilable alquilable = (Alquilable) product;
+                Book book = (Book) product;
+
+                if (inputElement.equals(book.getTitle())) {
+                    if (alquilable.isBorrowed()) {
+                        alquilable.bringBack();
+                        product.stock++;
+
+                        System.out.println("Devolución realizada con éxito!");
+                        salesMenu();
+                        return true;
+                    }
+                }
+            }
+        }
+        System.out.println("No se ha podido realizar la devolución. El libro no existe o no está prestado.");
+        salesMenu();
+        return false;
+    }
+
 
     public void registerClient(ArrayList<Client> clientArrayList){
         Client c = new Client();

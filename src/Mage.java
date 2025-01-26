@@ -6,14 +6,6 @@ public class Mage extends Client{
         this.read = read;
     }
 
-    public boolean canRead(){
-        if (!read) {
-            read = true;
-            return true;
-        }
-        return false;
-    }
-
     @Override
     public String toString() {
         return super.toString() +

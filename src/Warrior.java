@@ -6,13 +6,6 @@ public class Warrior extends Client{
         this.fight = fight;
     }
 
-    public boolean getFight() {
-        return fight;
-    }
-    public void setFight(boolean fight) {
-        this.fight = fight;
-    }
-
     @Override
     public String toString() {
         return super.toString() +

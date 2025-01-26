@@ -5,6 +5,15 @@ public class Product implements Cloneable{
     protected int stock;
     protected double price;
 
+    //Constructor default
+    public Product() {
+        this.productID = productID;
+        this.nameProduct = nameProduct;
+        this.stats = stats;
+        this.stock = stock;
+        this.price = price;
+    }
+
     public Product(int productID, String nameProduct, String stats, int stock, double price) {
         this.productID = productID;
         this.nameProduct = nameProduct;
@@ -19,22 +28,11 @@ public class Product implements Cloneable{
         this.stock = stock;
     }
 
-    public Product() {
-        this.productID = productID;
-        this.nameProduct = nameProduct;
-        this.stats = stats;
-        this.stock = stock;
-        this.price = price;
-    }
-
     public void setProductID(int productID) {
         this.productID = productID;
     }
     public int getProductID() {
         return productID;
-    }
-    public void setNameProduct(String nameProduct) {
-        this.nameProduct = nameProduct;
     }
     public String getNameProduct() {
         return nameProduct;
@@ -42,17 +40,8 @@ public class Product implements Cloneable{
     public double getPrice() {
         return price;
     }
-    public void setStats(String stats) {
-        this.stats = stats;
-    }
-    public String getStats() {
-        return stats;
-    }
     public int getStock() {
         return stock;
-    }
-    public void setStock(int stock) {
-        this.stock = stock;
     }
 
     @Override
@@ -65,6 +54,7 @@ public class Product implements Cloneable{
                 "Precio= " + price + '\n';
     }
 
+    //Constructor para crear el objeto clonado
     public void cloneTo(Product other) {
         other.productID = productID;
         other.nameProduct = nameProduct;
