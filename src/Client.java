@@ -15,9 +15,6 @@ public class Client extends Person implements Comparable<Client>{
         this.money = 0.0;
     }
 
-    public String getSurname() {
-        return surname;
-    }
     public void setSurname(String surname) {
         this.surname = surname;
     }
