@@ -57,7 +57,9 @@ public class Store {
         System.out.println("Alta de Clientes y/o Productos:");
         System.out.println("1. Alta de Clientes");
         System.out.println("2. Alta de Productos");
-        System.out.println("3. Volver al menu principal");
+        System.out.println("3. Listar Clientes");
+        System.out.println("4. Listar Productos");
+        System.out.println("5. Volver al menu principal");
     }
 
     public void printModifyMenu(){
@@ -102,7 +104,7 @@ public class Store {
     public void mainMenu(){
         printMainMenu();
         int userInput = 0;
-        while (userInput != 4) {
+        while (userInput != 5) {
             try {
                 userInput = sc.nextInt();
                 switch (userInput) {
@@ -155,6 +157,14 @@ public class Store {
                         registerProduct(productArrayList);
                         break;
                     case 3:
+                        //Listado de Clientes
+                        printAllClients(clientArrayList);
+                        break;
+                    case 4:
+                        //Listado de Productos
+                        printAllProducts(productArrayList);
+                        break;
+                    case 5:
                         //Salida menu principal
                         mainMenu();
                         break;
@@ -446,19 +456,36 @@ public class Store {
 
 
     public void registerClient(ArrayList<Client> clientArrayList){
-        Client c = new Client();
 
         System.out.println("Introduzca el Id del cliente: ");
-        c.setUserID(sc.nextInt());
+        int userID = sc.nextInt();
         sc.nextLine();
+
         System.out.println("Introduzca el nombre del cliente: ");
-        c.setName(sc.nextLine());
+        String name = sc.nextLine();
+
         System.out.println("Introduzca el apellido del cliente: ");
-        c.setSurname(sc.nextLine());
+        String surname = sc.nextLine();
+
         System.out.println("Introduzca el dinero del cliente: ");
-        c.setMoney(sc.nextDouble());
-        clientArrayList.add(c);
-        System.out.println(c);
+        double money = sc.nextDouble();
+        sc.nextLine();
+
+        System.out.println("Es usted un/a Mago o Guerrero? (Mago/Guerrero)");
+        String answer = sc.nextLine();
+
+        Client client;
+        if(answer.equalsIgnoreCase("guerrero")){
+            client = new Warrior(userID, name, surname, money, true);
+        }else if(answer.equalsIgnoreCase("mago")){
+            client = new Mage(userID, name, surname, money, true);
+        } else {
+            System.out.println("Opción no válida. Resgistrado Cliente Generico.");
+            client = new Client(userID, name, surname, money);
+        }
+
+        clientArrayList.add(client);
+        System.out.println(clientArrayList);
         mainMenu();
     }
 
@@ -488,6 +515,16 @@ public class Store {
         productArrayList.add(clone);
     }
 
+    public void printAllClients(ArrayList<Client> clientArrayList){
+        System.out.println(clientArrayList);
+        mainMenu();
+    }
+
+    public void printAllProducts(ArrayList<Product> productArrayList){
+        System.out.println(productArrayList);
+        mainMenu();
+    }
+
     //Attention please, metodo complicado
     public void chooseClient(ArrayList<Client> clientArrayList){
         System.out.println("Introduzca el Id del cliente a modificar: ");
@@ -498,10 +535,9 @@ public class Store {
         for(Client c : clientArrayList){
             if(c.getUserID() == choosedId){
                 clientFound = true;
-                System.out.println("Modificación exitosa!");
                 modifyClientMenu(c);
             }
-            if(!clientFound){
+            if(clientFound){
                 System.out.println("Cliente no encontrado.");
             }
         }
@@ -520,18 +556,21 @@ public class Store {
                         System.out.println("Introduzca el nuevo nombre del cliente");
                         c.name = sc.nextLine();
                         System.out.println(c);
+                        System.out.println("Modificación exitosa!");
                         mainMenu();
                         break;
                     case 2:
                         System.out.println("Introduzca el nuevo apellido del cliente");
                         c.surname = sc.nextLine();
                         System.out.println(c);
+                        System.out.println("Modificación exitosa!");
                         mainMenu();
                         break;
                     case 3:
                         System.out.println("Introduzca el nuevo dinero del cliente");
                         c.money = sc.nextDouble();
                         System.out.println(c);
+                        System.out.println("Modificación exitosa!");
                         mainMenu();
                         break;
                     case 4:

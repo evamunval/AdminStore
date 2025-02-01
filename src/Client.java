@@ -15,11 +15,11 @@ public class Client extends Person implements Comparable<Client>{
         this.money = 0.0;
     }
 
-    public String getSurname() {
-        return surname;
+    public int getUserID() {
+        return userID;
     }
-    public void setSurname(String surname) {
-        this.surname = surname;
+    public void setUserID(int userID) {
+        this.userID = userID;
     }
     public String getName() {
         return name;
@@ -27,11 +27,11 @@ public class Client extends Person implements Comparable<Client>{
     public void setName(String name) {
         this.name = name;
     }
-    public int getUserID() {
-        return userID;
+    public String getSurname() {
+        return surname;
     }
-    public void setUserID(int userID) {
-        this.userID = userID;
+    public void setSurname(String surname) {
+        this.surname = surname;
     }
     public double getMoney() {
         return money;

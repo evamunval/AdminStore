@@ -6,9 +6,15 @@ public class Mage extends Client{
         this.read = read;
     }
 
+    public Mage(){}
+
+    public boolean getCanRead(){
+       return read;
+    }
+
     @Override
     public String toString() {
         return super.toString() +
-                "Mago = " + read + '\n';
+                "Mago = " + getCanRead() + '\n';
     }
 }

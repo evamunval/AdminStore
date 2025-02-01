@@ -4,12 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="23ab7e83-59c1-4258-b5d0-0172551bf6d8" name="Changes" comment="Menus funcionales y infinitos, programa acabado">
+    <list default="true" id="23ab7e83-59c1-4258-b5d0-0172551bf6d8" name="Changes" comment="Método Compra y Alquiler acabado">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Book.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Book.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Client.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Client.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Mage.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Mage.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Product.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Product.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Store.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Store.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Warrior.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Warrior.java" afterDir="false" />
     </list>
@@ -107,8 +106,7 @@
       <workItem from="1737447313775" duration="32000" />
       <workItem from="1737659516672" duration="2396000" />
       <workItem from="1737744394462" duration="4161000" />
-      <workItem from="1737792891632" duration="33951000" />
-      <workItem from="1737906877595" duration="343000" />
+      <workItem from="1737792891632" duration="30334000" />
     </task>
     <task id="LOCAL-00001" summary="Método Compra y Alquiler acabado">
       <option name="closed" value="true" />
@@ -118,23 +116,7 @@
       <option name="project" value="LOCAL" />
       <updated>1737811905630</updated>
     </task>
-    <task id="LOCAL-00002" summary="Menus funcionales y infinitos, programa acabado">
-      <option name="closed" value="true" />
-      <created>1737825903839</created>
-      <option name="number" value="00002" />
-      <option name="presentableId" value="LOCAL-00002" />
-      <option name="project" value="LOCAL" />
-      <updated>1737825903839</updated>
-    </task>
-    <task id="LOCAL-00003" summary="Menus funcionales y infinitos, programa acabado">
-      <option name="closed" value="true" />
-      <created>1737825917454</created>
-      <option name="number" value="00003" />
-      <option name="presentableId" value="LOCAL-00003" />
-      <option name="project" value="LOCAL" />
-      <updated>1737825917454</updated>
-    </task>
-    <option name="localTasksCounter" value="4" />
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -153,7 +135,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Método Compra y Alquiler acabado" />
-    <MESSAGE value="Menus funcionales y infinitos, programa acabado" />
-    <option name="LAST_COMMIT_MESSAGE" value="Menus funcionales y infinitos, programa acabado" />
+    <option name="LAST_COMMIT_MESSAGE" value="Método Compra y Alquiler acabado" />
   </component>
 </project>

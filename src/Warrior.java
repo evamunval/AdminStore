@@ -6,9 +6,19 @@ public class Warrior extends Client{
         this.fight = fight;
     }
 
+    public Warrior(){}
+
+    public boolean getFight() {
+        return fight;
+    }
+
     @Override
     public String toString() {
         return super.toString() +
-                "Guerrero = " + fight + '\n';
+                "Guerrero = " + getFight() + '\n';
     }
 }
+//uno quitar los dos toString,
+//gestionar tipo de cliente con ambos getters
+//sumar toStringlciente con warrior y mago por separado
+//usar ternaria para opcion 2
