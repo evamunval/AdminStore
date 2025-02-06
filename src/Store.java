@@ -13,12 +13,12 @@ public class Store {
     //Declaraciones arraylist
     private ArrayList<Client> clientArrayList;
     private ArrayList<Product> productArrayList;
-    private Scanner sc;
     private int clientID;
     private Timestamp timestamp;
     private static final SimpleDateFormat sdf1 = new SimpleDateFormat("dd/MM/yyyy");
     private static final SimpleDateFormat sdf2 = new SimpleDateFormat("dd/MM/yyyy");
     private final LocalDateTime localDateTime;
+    private Scanner sc;
 
     public Store(){
         this.client = new Client();
@@ -28,21 +28,33 @@ public class Store {
         this.timestamp = new Timestamp(System.currentTimeMillis());
         this.localDateTime = timestamp.toLocalDateTime();
 
-        //instancia del arraylist desde la variable global
+        //instancia del arraylist desde la referencia
         this.clientArrayList = new ArrayList<>();
-        //se crea de cero, un cliente predeterminado
-        clientArrayList.add(new Mage(01, "Paco","Garcia",600.23, true));
+        //creación clientes
+        clientArrayList.add(new Mage(01, "Paco","Garcia",20.23, true));
         clientArrayList.add(new Warrior(02, "Gilberto","Suarez",80.99, true));
-        clientArrayList.add(new Mage(03, "Adrian","Gonzalez",90.08, true));
-        clientArrayList.add(new Warrior(04, "Eva","Munar",200.99, true));
-        clientArrayList.add(new Mage(05, "Raul","Gil",100.99, true));
-
+        clientArrayList.add(new Mage(03, "Adrian","Gonzalez",100.08, true));
+        clientArrayList.add(new Warrior(04, "Eva","Munar",500.99, true));
+        clientArrayList.add(new Mage(05, "Raul","Gil",700.99, true));
+        //creacion productos
         this.productArrayList = new ArrayList<>();
-        productArrayList.add(new Weapon(01,"Master Sword","+101",5,149.99, WeaponType.SWORD));
-        productArrayList.add(new Potion(02,"Pocion de Vida Mediana","+30",20,20.30, PotionType.HEAL));
-        productArrayList.add(new Book(03,"Recetas de Campo","J.C.Rowling",1,1425, false));
-        productArrayList.add(new Weapon(04,"Link Sword","+10",5,149.99, WeaponType.SWORD));
-        productArrayList.add(new Weapon(05,"Shield","+10",1,100.99, WeaponType.SHIELD));
+        productArrayList.add(new Weapon(1,"Espada Maestra","+101",5,180.59, WeaponType.SWORD));
+        productArrayList.add(new Weapon(2,"Espada del caos","+200",2,203.66, WeaponType.SWORD));
+
+        productArrayList.add(new Weapon(4,"Escudo Hyliano","+40",1,300.33, WeaponType.SHIELD));
+        productArrayList.add(new Weapon(5,"Escudo del lobo","+80",7,110.36, WeaponType.SHIELD));
+
+        productArrayList.add(new Weapon(7,"Armadura Dragón","+150",4,400.23, WeaponType.ARMOUR));
+        productArrayList.add(new Weapon(8,"Armadura Rubí","+180",8,600.22, WeaponType.ARMOUR));
+
+        productArrayList.add(new Potion(9,"Pocion de Vida Mediana","+30",20,20.30, PotionType.HEAL));
+        productArrayList.add(new Potion(10,"Pocion de Vida Pequeña","+15",50,7.30, PotionType.HEAL));
+
+        productArrayList.add(new Potion(11,"Superpoción de maná","+30",5,40.30, PotionType.MANA));
+        productArrayList.add(new Potion(12,"Pocion de Mana","+15",10,10.22, PotionType.MANA));
+
+        productArrayList.add(new Book(13,"Recetas de Campo","J.C.Rowling",1,1425, false));
+        productArrayList.add(new Book(14,"Magia Negra","NightShade",1,1500, false));
     }
 
     public void printMainMenu(){
@@ -130,7 +142,7 @@ public class Store {
                         salesMenu();
                     case 5:
                         // Salir
-                        System.out.println("Cerrando programa.");
+                        System.exit(0);
                         break;
                     default:
                         System.out.println("Opción no válida");
