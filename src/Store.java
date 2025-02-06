@@ -9,6 +9,7 @@ import java.util.Scanner;
 public class Store {
     private Client client;
     private Product product;
+
     //Declaraciones arraylist
     private ArrayList<Client> clientArrayList;
     private ArrayList<Product> productArrayList;
@@ -376,16 +377,15 @@ public class Store {
         LocalDateTime date = localDateTime.plusMonths(1);
         Timestamp dueDate = Timestamp.valueOf(date);
         for(Product product : productArrayList) {
-            if(product instanceof Alquilable) {
+            if(product instanceof Alquilable && product instanceof Book) {
                 Alquilable alquilable = (Alquilable) product;
-                if (product instanceof Book) {
-                    Book book = (Book) product;
-                    System.out.println("Producto: " + ((Book) product).getTitle() + '\n' +
-                            "Autor: " + ((Book) product).getAuthor() + '\n' +
-                            "Año de Publicación: " + ((Book) product).getYearOfPublication() + '\n' +
-                            "Stock: " + product.getStock() + '\n' +
-                            "Prestado: " + alquilable.isBorrowed());
-                }
+                Book book = (Book) product;
+
+                System.out.println("Producto: " + ((Book) product).getTitle() + '\n' +
+                        "Autor: " + ((Book) product).getAuthor() + '\n' +
+                        "Año de Publicación: " + ((Book) product).getYearOfPublication() + '\n' +
+                        "Stock: " + product.getStock() + '\n' +
+                        "Prestado: " + alquilable.isBorrowed());
             }
         }
 
@@ -397,20 +397,18 @@ public class Store {
                 Alquilable alquilable = (Alquilable) product;
                 Book book = (Book) product;
 
-                if(inputElement.equals(((Book) product).getTitle()) && product.getStock() > 0){
-                    if(!alquilable.isBorrowed()){
+                if(inputElement.equals(((Book) product).getTitle()) && product.getStock() > 0 && !alquilable.isBorrowed()){
                         alquilable.lent();
                         product.stock--;
                         System.out.println("Alquiler realizado: " + sdf1.format(timestamp) + "\n" + "Fecha de devolución: " + sdf2.format(dueDate));
-                        salesMenu();
+                        mainMenu();
                         return true;
                     }
                 }
             }
-        }
 
         System.out.println("No se ha podido realizar el alquiler!" + "\n" + "Fecha de devolución:" + sdf2.format(dueDate));
-        salesMenu();
+        mainMenu();
         return false;
     }
 
@@ -454,7 +452,6 @@ public class Store {
         return false;
     }
 
-
     public void registerClient(ArrayList<Client> clientArrayList){
 
         System.out.println("Introduzca el Id del cliente: ");
@@ -490,29 +487,62 @@ public class Store {
     }
 
     public void registerProduct(ArrayList<Product> productArrayList){
-        Product p = new Product();
-
-        System.out.println("Introduzca el Id del producto: ");
-        p.setProductID(sc.nextInt());
+        System.out.println("¿Que tipo de producto quieres dar de alta? (1: Producto Generico, 2: Libro)");
+        int typeProduct = sc.nextInt();
         sc.nextLine();
-        System.out.println("Introduzca el nombre del producto: ");
-        p.nameProduct = sc.nextLine();
-        System.out.println("Introduzca las estadísticas del producto: ");
-        p.stats = sc.nextLine();
-        System.out.println("Introduzca el precio del producto: ");
-        p.price = sc.nextDouble();
-        System.out.println("Introduzca el stock del producto: ");
-        p.stock = sc.nextInt();
 
-        productArrayList.add(p);
-        System.out.println(p);
+        if (typeProduct == 1) {
+            Product p = new Product();
 
-        //Clonacion
-        Product clone = new Product();
-        p.cloneTo(clone);
-        System.out.println("Clon del producto creado: " + clone);
-        //Agregar al ArrayList
-        productArrayList.add(clone);
+            System.out.println("Introduzca el Id del producto: ");
+            p.setProductID(sc.nextInt());
+            sc.nextLine();
+            System.out.println("Introduzca el nombre del producto: ");
+            p.nameProduct = sc.nextLine();
+            System.out.println("Introduzca las estadísticas del producto: ");
+            p.stats = sc.nextLine();
+            System.out.println("Introduzca el precio del producto: ");
+            p.price = sc.nextDouble();
+            System.out.println("Introduzca el stock del producto: ");
+            p.stock = sc.nextInt();
+
+            productArrayList.add(p);
+            System.out.println(p);
+
+            //Clonacion
+            Product clone = new Product();
+            p.cloneTo(clone);
+            System.out.println("Clon del producto creado: " + clone);
+            //Agregar al ArrayList
+            productArrayList.add(clone);
+        }else if (typeProduct == 2) {
+            System.out.println("Introduzca el Id del Libro: ");
+            int productId = sc.nextInt();
+            sc.nextLine();
+            System.out.println("Introduzca el titulo del Libro: ");
+            String title = sc.nextLine();
+            System.out.println("Introduzca el autor del Libro: ");
+            String author = sc.nextLine();
+            System.out.println("Introduzca el año de publicacion del Libro: ");
+            int yearOfPublication = sc.nextInt();
+            sc.nextLine();
+            System.out.println("Introduzca el stock del Libro: ");
+            int stock = sc.nextInt();
+            System.out.println("Es el libro prestado? (true/false)");
+            boolean borrow = sc.nextBoolean();
+
+            Book book = new Book(productId, title, author, stock, yearOfPublication, borrow);
+            productArrayList.add(book);
+            System.out.println(book);
+
+            //Clonación
+            Book cloneBook = new Book(productId, title, author, stock, yearOfPublication, borrow);
+            System.out.println("Clon del libro creado: " +cloneBook);
+            productArrayList.add(cloneBook);
+        } else {
+            System.out.println("Opción no válida. Producto no registrado.");
+        }
+            mainMenu();
     }
 
     public void printAllClients(ArrayList<Client> clientArrayList){
@@ -532,14 +562,15 @@ public class Store {
         sc.nextLine();
 
         boolean clientFound = false;
-        for(Client c : clientArrayList){
-            if(c.getUserID() == choosedId){
+        for(Client c : clientArrayList) {
+            if (c.getUserID() == choosedId) {
                 clientFound = true;
                 modifyClientMenu(c);
+                break;
             }
-            if(clientFound){
-                System.out.println("Cliente no encontrado.");
-            }
+        }
+        if(clientFound){
+            System.out.println("Cliente no encontrado.");
         }
     }
 
@@ -595,15 +626,16 @@ public class Store {
 
         boolean productFound = false;
         Iterator <Product> iterator = productArrayList.iterator();
-        while(iterator.hasNext()){
-            if(iterator.next().getProductID() == choosedId){
+        while(iterator.hasNext()) {
+            Product product = iterator.next();
+            if (product.getProductID() == choosedId) {
                 productFound = true;
-                System.out.println("Modificación exitosa!");
-                modifyProductMenu(iterator.next());
+                modifyProductMenu(product);
+                break;
             }
-            if(!productFound){
-                System.out.println("Producto no encontrado.");
-            }
+        }
+        if(!productFound){
+            System.out.println("Producto no encontrado.");
         }
     }
 
@@ -620,18 +652,21 @@ public class Store {
                         System.out.println("Introduzca el nuevo nombre del producto");
                         p.nameProduct = sc.nextLine();
                         System.out.println(p);
+                        System.out.println("Modificación exitosa!");
                         mainMenu();
                         break;
                     case 2:
                         System.out.println("Introduzca el nuevo stock del producto");
                         p.stock = sc.nextInt();
                         System.out.println(p);
+                        System.out.println("Modificación exitosa!");
                         mainMenu();
                         break;
                     case 3:
                         System.out.println("Introduzca el nuevo precio del producto");
                         p.price = sc.nextDouble();
                         System.out.println(p);
+                        System.out.println("Modificación exitosa!");
                         mainMenu();
                         break;
                     case 4:
@@ -649,20 +684,26 @@ public class Store {
     }
 
     public void deleteClient(ArrayList <Client> clientArrayList){
+        System.out.println(clientArrayList);
+
+
         System.out.println("Introduzca el Id del cliente: ");
         int choosedID = sc.nextInt();
         sc.nextLine();
 
+        Iterator<Client> iterator = clientArrayList.iterator();
         boolean clientFound = false;
-        for(Client c : clientArrayList){
-            if(c.getUserID() == choosedID){
+        while(iterator.hasNext()) {
+            Client c = iterator.next();
+            if (c.getUserID() == choosedID) {
+                iterator.remove();
                 clientFound = true;
-                clientArrayList.remove(c);
                 System.out.println("Eliminado con exito!");
+                break;
             }
-            if(!clientFound){
-                System.out.println("Cliente no encontrado.");
-            }
+        }
+        if(!clientFound){
+            System.out.println("Cliente no encontrado.");
         }
     }
 
@@ -673,16 +714,19 @@ public class Store {
         int choosedID = sc.nextInt();
         sc.nextLine();
 
+        Iterator<Product> iterator = productArrayList.iterator();
         boolean productFound = false;
-        for(Product p : productArrayList){
-            if(p.getProductID() == choosedID){
+        while (iterator.hasNext()) {
+            Product p = iterator.next();
+            if (p.getProductID() == choosedID) {
+                iterator.remove();
                 productFound = true;
-                productArrayList.remove(p);
                 System.out.println("Eliminado con exito!");
+                break;
             }
-            if(!productFound){
-                System.out.println("Producto no encontrado.");
-            }
+        }
+        if(!productFound) {
+            System.out.println("Producto no encontrado.");
         }
     }
 }

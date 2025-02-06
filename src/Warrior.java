@@ -18,7 +18,3 @@ public class Warrior extends Client{
                 "Guerrero = " + getFight() + '\n';
     }
 }
-//uno quitar los dos toString,
-//gestionar tipo de cliente con ambos getters
-//sumar toStringlciente con warrior y mago por separado
-//usar ternaria para opcion 2
